@@ -14,10 +14,12 @@ helpers do
 end
 
 class ShoppingList
+  attr_reader :title
 
   def initialize(r)
     @doc = nil
     @output = [] 
+    @title = nil 
 
     build_shopping_list(r)
   end
@@ -36,6 +38,8 @@ class ShoppingList
     # The pages are so badly marked up this is really
     # hoping for the best. Hopefully it exposes the
     # need for these pages to be fixed 
+
+    @title = @doc.css('h1').first.content
 
     ignore_next_p = false 
     @doc.css('div[class*="content-main"] > div.promo > *').each do |el|
@@ -94,8 +98,8 @@ get('/shoppinglist') {
 
   if iphone_request?
     content_type 'text/html', :charset => 'utf-8'
+    @title = r.title
     @items = r.for_iphone
-    puts @items
     erb :iphone
   else
     content_type 'text/plain', :charset => 'utf-8'
