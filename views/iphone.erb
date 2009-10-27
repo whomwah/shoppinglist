@@ -14,6 +14,7 @@ function checkBox(el) {
 </head>
 <body>
 <ul>
+<%= @items.inspect %>
 <% for item in @items %>
 <li onclick="checkBox(this);return false"><input type="checkbox"> <span><%= item %></span></li>
 <% end %>

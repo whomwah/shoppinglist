@@ -99,7 +99,7 @@ get('/shoppinglist') {
     halt "Oo-la-la! there was something wrong with the URL you provided" 
   end
 
-  if iphone_request?
+  if !iphone_request?
     content_type 'text/html', :charset => 'utf-8'
     @title = r.title
     @items = r.for_iphone
