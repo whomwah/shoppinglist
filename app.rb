@@ -2,9 +2,6 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 require 'erb'
-require 'sinatra'
-
-SL_URI = "http://localhost/~duncan/sl1.shtml"
 
 helpers do
   def iphone_request?

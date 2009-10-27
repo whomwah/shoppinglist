@@ -19,7 +19,7 @@ body > ul {
 
 body > ul > li {
     margin: 0;
-    padding: 10px 32px 10px 20px;
+    padding:0;
     border-bottom: 1px solid #E0E0E0;
     font-size: 14px;
     font-weight: bold;
@@ -28,11 +28,13 @@ body > ul > li {
 }
 
 li span {
+  display:block;
+  padding: 10px 32px 10px 38px;
 }
 
 input {
   float:left;
   position:relative;
-  top:-2px;
-  right:10px;
+  top:8px;
+  left:10px;
 }

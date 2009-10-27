@@ -5,11 +5,17 @@
 <meta name="viewport" content="initial-scale=2.3, user-scalable=no" />
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 <link rel='stylesheet' href='/css/styles.css' type='text/css'>
+<script type="text/javascript">
+function checkBox(el) {
+ el.childNodes.item(0).checked = true;  
+ el.style.color = '#666666';  
+}
+</script>
 </head>
 <body>
 <ul>
 <% for item in @items %>
-<li><input type="checkbox"> <span><%= item %></span></li>
+<li onclick="checkBox(this);return false"><input type="checkbox"> <span><%= item %></span></li>
 <% end %>
 </ul>
 </body>
