@@ -37,7 +37,8 @@ class ShoppingList
     # hoping for the best. Hopefully it exposes the
     # need for these pages to be fixed 
 
-    @title = @doc.css('h1').first.content
+    #@title = @doc.css('h1').first.content
+    @title = "hello" 
 
     ignore_next_p = false 
     @doc.css('div[class*="content-main"] > div.promo > *').each do |el|
