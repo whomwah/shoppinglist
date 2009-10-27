@@ -95,19 +95,18 @@ get('/shoppinglist') {
   #response["Cache-Control"] = "max-age=86400, public" 
   begin
     r = ShoppingList.new(params["r"])
+    if !iphone_request?
+      content_type 'text/html', :charset => 'utf-8'
+      @title = r.title
+      @items = r.for_iphone
+      erb :iphone
+    else
+      content_type 'text/plain', :charset => 'utf-8'
+      r.to_txt
+    end 
   rescue OpenURI::HTTPError => e
     halt "Oo-la-la! there was something wrong with the URL you provided" 
   end
-
-  if !iphone_request?
-    content_type 'text/html', :charset => 'utf-8'
-    @title = r.title
-    @items = r.for_iphone
-    erb :iphone
-  else
-    content_type 'text/plain', :charset => 'utf-8'
-    r.to_txt
-  end 
 }
 
 get('/') { 
