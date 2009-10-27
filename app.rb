@@ -37,7 +37,7 @@ class ShoppingList
     # hoping for the best. Hopefully it exposes the
     # need for these pages to be fixed 
 
-    #@title = @doc.css('h1').first.content
+    @title = @doc.css('h1').first.content
 
     ignore_next_p = false 
     @doc.css('div[class*="content-main"] > div.promo > *').each do |el|
@@ -92,9 +92,13 @@ end
 
 get('/shoppinglist') { 
   #response["Cache-Control"] = "max-age=86400, public" 
-  halt unless r = ShoppingList.new(params["r"])
+  begin
+    r = ShoppingList.new(params["r"])
+  rescue OpenURI::HTTPError => e
+    halt "Oo-la-la! there was something wrong with the URL you provided" 
+  end
 
-  if iphone_request?
+  if !iphone_request?
     content_type 'text/html', :charset => 'utf-8'
     @title = r.title
     @items = r.for_iphone
