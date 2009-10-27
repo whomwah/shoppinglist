@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>BBC Recipe Ingredients</title>
+<meta name="viewport" content="initial-scale=2.3, user-scalable=no" />
+<meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
+<link rel='stylesheet' href='/css/styles.css' type='text/css'>
+</head>
+<body>
+<ul>
+<% for item in @items %>
+<li><input type="checkbox"> <span><%= item %></span></li>
+<% end %>
+</ul>
+</body>
+</html>

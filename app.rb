@@ -1,9 +1,17 @@
 require 'rubygems' 
 require 'nokogiri'
 require 'open-uri'
+require 'erb'
 require 'sinatra'
 
 SL_URI = "http://localhost/~duncan/sl1.shtml"
+
+helpers do
+  def iphone_request?
+    (agent = request.env["HTTP_USER_AGENT"]) &&
+    agent[/(Mobile\/.+Safari)/]
+  end
+end
 
 class ShoppingList
 
@@ -63,7 +71,7 @@ class ShoppingList
     results = items.to_s.gsub(/<strong>|<\/strong>/, '<br/>')
     results = results.split(/<br\/*>/).map! {|i| i.strip.gsub(/<\/?[^>]*>/,'')}
 
-    @output << results 
+    @output = results 
   end
 
   def fetch_recipe(url) 
@@ -74,16 +82,25 @@ class ShoppingList
     @output.join("\n").strip
   end
 
+  def for_iphone
+    @output
+  end
+
 end
 
 get('/shoppinglist') { 
   #response["Cache-Control"] = "max-age=86400, public" 
-  content_type 'text/plain', :charset => 'utf-8'
-  if r = ShoppingList.new(params["r"])
-    r.to_txt
+  halt unless r = ShoppingList.new(params["r"])
+
+  if iphone_request?
+    content_type 'text/html', :charset => 'utf-8'
+    @items = r.for_iphone
+    puts @items
+    erb :iphone
   else
-    "Oops, something went wrong"
-  end
+    content_type 'text/plain', :charset => 'utf-8'
+    r.to_txt
+  end 
 }
 
 get('/') { 
