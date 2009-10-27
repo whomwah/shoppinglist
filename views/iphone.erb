@@ -14,9 +14,12 @@ function checkBox(el) {
 </head>
 <body>
 <ul>
-<%= @data.inspect %>
-<% for item in @data.r_items %>
-<li onclick="checkBox(this);return false"><input type="checkbox"> <span><%= item %></span></li>
+<% for item in @data.for_iphone %>
+<% if item[:is_heading] %>
+<li class="heading"><%= item[:content] %></li>
+<% else %>
+<li onclick="checkBox(this);return false"><input type="checkbox"> <span><%= item[:content] %></span></li>
+<% end %>
 <% end %>
 </ul>
 </body>
