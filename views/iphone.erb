@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title><%= @title %></title>
+<title><%= @data.title %></title>
 <meta name="viewport" content="initial-scale=2.3, user-scalable=no" />
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 <link rel='stylesheet' href='/css/styles.css' type='text/css'>
@@ -14,8 +14,8 @@ function checkBox(el) {
 </head>
 <body>
 <ul>
-<%= @items.inspect %>
-<% for item in @items %>
+<%= @data.inspect %>
+<% for item in @data.r_items %>
 <li onclick="checkBox(this);return false"><input type="checkbox"> <span><%= item %></span></li>
 <% end %>
 </ul>
