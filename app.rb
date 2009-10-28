@@ -112,7 +112,7 @@ class ShoppingList
 end
 
 get('/list') { 
-  #response["Cache-Control"] = "max-age=86400, public" 
+  response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
   begin
     @data = ShoppingList.new(params["r"])
@@ -127,7 +127,7 @@ get('/list') {
 }
 
 get('/') { 
-  #response["Cache-Control"] = "max-age=86400, public" 
+  response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
   if iphone_request?
     erb :index_iphone
