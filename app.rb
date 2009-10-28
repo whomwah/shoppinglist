@@ -129,5 +129,9 @@ get('/list') {
 get('/') { 
   #response["Cache-Control"] = "max-age=86400, public" 
   content_type 'text/html', :charset => 'utf-8'
-  erb :index
+  if iphone_request?
+    erb :index_iphone
+  else
+    erb :index
+  end 
 }
