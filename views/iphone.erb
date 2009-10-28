@@ -5,16 +5,44 @@
 <meta name="viewport" content="initial-scale=2.3, user-scalable=no" />
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />
 <link rel='stylesheet' href='/css/styles.css' type='text/css'>
-<script type="text/javascript">
-function checkBox(el) {
- el.childNodes.item(0).checked = true;  
- el.style.color = '#666666';  
-}
+<script type="application/x-javascript"> 
+    
+    addEventListener("load", function()
+    {
+        setTimeout(updateLayout, 0);
+    }, false);
+ 
+    var currentWidth = 0;
+    
+    function updateLayout()
+    {
+        if (window.innerWidth != currentWidth)
+        {
+            currentWidth = window.innerWidth;
+ 
+            var orient = currentWidth == 320 ? "profile" : "landscape";
+            document.body.setAttribute("orient", orient);
+            setTimeout(function()
+            {
+                window.scrollTo(0, 1);
+            }, 100);            
+        }
+    }
+ 
+    setInterval(updateLayout, 400);
+
+    function checkBox(el) {
+      var chd = el.childNodes.item(0).checked;
+      el.childNodes.item(0).checked = chd ? false : true;  
+      el.style.color = chd ? '#333333' : '#999999';  
+    }
+    
 </script>
 </head>
-<body>
+<body onload="javascript:window.scrollTo(0, 1);">
+<h1><%= @data.title %></h1>
 <ul>
-<% for item in @data.for_iphone %>
+<% for item in @data.for_html %>
 <% if item[:is_heading] %>
 <li class="heading"><%= item[:content] %></li>
 <% else %>
