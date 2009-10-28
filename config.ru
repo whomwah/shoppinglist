@@ -3,7 +3,7 @@ require 'sinatra'
 require 'rack/cache'
 require 'app.rb'
 
-set :environment, :development
+#set :environment, :development
 
 use Rack::Cache, 
   :verbose => true, 
