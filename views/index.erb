@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Mobile BBC Recipe Shopping List</title>
+<style type="text/css">
+h1 {
+  margin:0 0 0 0;
+  padding:0;
+  font-size:15px;
+  text-transform: uppercase;
+}
+ul {
+  margin:0;
+  padding:0;
+}
+li {
+  list-style:none;
+}
+.heading {
+  font-size:12px;
+  text-transform: uppercase;
+  font-weight:bold;
+  padding-top:3px;
+  margin-bottom:4px;
+}
+</style>
+</head>
+<body>
+<h1>Mobile BBC Recipe shopping list</h1>
+<p>This is a little experiment, to help you when buying ingedients for any of the recipes from the BBC Food site. If you paste the url of the recipe into the box below, you will get an ingedients list returned, with check boxes to help you see what you bought. It was built with the iPhone in mind, but should work with other mobile devices.</p>
+<p>http://#{request.env['HTTP_HOST']}/shoppinglist?r=</p>
+</body>
+</html>

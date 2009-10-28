@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title><%= @data.title %></title>
+<style type="text/css">
+h1 {
+  margin:0 0 7px 0;
+  padding:0;
+  font-size:13px;
+  text-transform: uppercase;
+}
+ul {
+  margin:0;
+  padding:0;
+}
+li {
+  list-style:none;
+}
+.heading {
+  font-size:12px;
+  text-transform: uppercase;
+  font-weight:bold;
+  padding-top:3px;
+  margin-bottom:4px;
+}
+</style>
+</head>
+<body>
+<h1><%= @data.title %></h1>
+<ul>
+<% for item in @data.for_html %>
+<% if item[:is_heading] %>
+<li class="heading"><%= item[:content] %></li>
+<% else %>
+<li><label><input type="checkbox"> <%= item[:content] %></label></li>
+<% end %>
+<% end %>
+</ul>
+</body>
+</html>
