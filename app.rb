@@ -44,7 +44,7 @@ class ShoppingList
     (@doc/'div.content-main > div.promo > *').each do |el|
       break if el.comment?
       next if el.inner_text.strip == ''
-      break if el.name == 'div' || el.comment?
+      break if el.name == 'div'
 
       if el.name == 'h2'
         if el.inner_text =~ /description|method/i
