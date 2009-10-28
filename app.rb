@@ -42,6 +42,7 @@ class ShoppingList
 
     ignore_next_p = false 
     (@doc/'div.content-main > div.promo > *').each do |el|
+      break if el.comment?
       next if el.inner_text.strip == ''
       break if el.name == 'div' || el.comment?
 
