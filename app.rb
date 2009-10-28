@@ -111,6 +111,21 @@ class ShoppingList
 
 end
 
+get('/iphone') { 
+  response["Cache-Control"] = "max-age=300, public" 
+  content_type 'text/html', :charset => 'utf-8'
+  unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/database\/.*.shtml/
+    halt "Oops! You must use a BBC Recipe url"
+  end
+
+  begin
+    @data = ShoppingList.new(params["r"])
+    erb :iphone
+  rescue OpenURI::HTTPError => e
+    halt "Oo-la-la! there was something wrong with the URL you provided" 
+  end
+}
+
 get('/list') { 
   response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
@@ -120,18 +135,13 @@ get('/list') {
 
   begin
     @data = ShoppingList.new(params["r"])
-    if iphone_request?
-      erb :iphone
-    else
-      erb :html
-    end 
+    erb :html
   rescue OpenURI::HTTPError => e
     halt "Oo-la-la! there was something wrong with the URL you provided" 
   end
 }
 
 get('/') { 
-  response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
   if iphone_request?
     erb :index_iphone
