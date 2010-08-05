@@ -1,7 +1,8 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html dir="ltr" lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title><%= @data.title %></title>
+<meta charset=utf-8 />
 <style type="text/css">
 h1 {
   margin:0 0 7px 0;
@@ -28,11 +29,12 @@ li {
 <body>
 <h1><%= @data.title %></h1>
 <ul>
-<% for item in @data.for_html %>
-<% if item[:is_heading] %>
-<li class="heading"><%= item[:content] %></li>
-<% else %>
-<li><label><input type="checkbox"> <%= item[:content] %></label></li>
+<% for d in @data.for_html %>
+<li class="heading"><%= d[0] %></li>
+<% if d[1] %>
+<% for label in d[1] %>
+<li><label><input type="checkbox"> <%= label %></label></li>
+<% end %>
 <% end %>
 <% end %>
 </ul>

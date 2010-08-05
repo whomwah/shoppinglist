@@ -23,6 +23,11 @@ class ShoppingList
   end
 
   def build_shopping_list(r)
+    # do we have shopping-list at the end otherwise add it
+    unless r.include? 'shopping-list'
+      r = File.join(r,'shopping-list')
+    end
+
     # fetch the html page
     fetch_recipe(r) 
 
@@ -33,35 +38,31 @@ class ShoppingList
   def build_output 
     items = []
 
-    # The pages are so badly marked up this is really
-    # hoping for the best. Hopefully it exposes the
-    # need for these pages to be fixed. Here I'm just storing
-    # a loose data structure 
-
-    @title = (@doc/'title').inner_html.split(':').last.strip
+    @title = (@doc/"#header h2").first.inner_html.strip
 
     ignore_next_p = false 
-    (@doc/'div.content-main > div.promo > *').each do |el|
-      break if el.comment?
-      next if el.inner_text.strip == ''
-      break if el.name == 'div'
 
-      if el.name == 'h2'
-        if el.inner_text =~ /description|method/i
-          ignore_next_p = true
-          next
-        elsif el.inner_text =~ /ingredients/i
-          next
-        end
+    # first fetch all the section names
+    (@doc/'dl#shopping-list > dt[@class="ingredient-type"]').each do |el|
+      items << [ el.inner_html.strip ]
+    end
+
+    # now fetch all the ingredients 
+    (@doc/'dl#shopping-list > dd * ul').each_with_index do |el,i|
+      ingr = []
+
+      (el/'li[@class="ingredient"]').each do |li|
+        ingr << li.inner_html.strip.split(',').first 
       end
 
-      if ignore_next_p
-        ignore_next_p = false
-        next
+      if items[i].nil?
+        items[i] = ['Other', ingr]
       else
-        items <<  el
+        items[i] << ingr
       end
     end
+
+    puts items.inspect
 
     @data = items 
   end
@@ -71,50 +72,14 @@ class ShoppingList
   end
 
   def for_html
-    d = @data 
-    results = []
-
-    d.map! do |el|
-      if el.name == 'h2'
-        "#{el.strip}<br/><br/>"
-      else
-        el
-      end
-    end
-
-
-    d = d.to_s.gsub(/<strong>/, '<br/>')
-    d = d.split(/<br\s*\/*>/).map! {|i| i.strip.gsub(/<\/?[^>]*>/,'')}
-
-    has_blank = false 
-    d.each do |item|
-      if item == ''
-        has_blank = true 
-        next
-      end
-
-      if has_blank
-        has_blank = false
-        results << {
-          :is_heading => true,
-          :content => item.gsub(':','').strip
-        } 
-      else
-        results << {
-          :content => item.strip
-        } 
-      end
-    end
-
-    results
+    @data 
   end
-
 end
 
 get('/iphone') { 
-  response["Cache-Control"] = "max-age=300, public" 
+  #response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
-  unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/database\/.*.shtml/
+  unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/.*_\d/ 
     halt "Oops! You must use a BBC Recipe url"
   end
 
@@ -127,9 +92,9 @@ get('/iphone') {
 }
 
 get('/list') { 
-  response["Cache-Control"] = "max-age=300, public" 
+  #response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
-  unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/database\/.*.shtml/
+  unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/.*_\d/ 
     halt "Oops! You must use a BBC Recipe url"
   end
 
@@ -142,7 +107,7 @@ get('/list') {
 }
 
 get('/') { 
-  content_type 'text/html', :charset => 'utf-8'
+  #content_type 'text/html', :charset => 'utf-8'
   if iphone_request?
     erb :index_iphone
   else
