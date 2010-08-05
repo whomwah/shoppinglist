@@ -77,7 +77,7 @@ class ShoppingList
 end
 
 get('/iphone') { 
-  #response["Cache-Control"] = "max-age=300, public" 
+  response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
   unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/.*_\d/ 
     halt "Oops! You must use a BBC Recipe url"
@@ -92,7 +92,7 @@ get('/iphone') {
 }
 
 get('/list') { 
-  #response["Cache-Control"] = "max-age=300, public" 
+  response["Cache-Control"] = "max-age=300, public" 
   content_type 'text/html', :charset => 'utf-8'
   unless params["r"] =~ /http:\/\/www.bbc.co.uk\/food\/recipes\/.*_\d/ 
     halt "Oops! You must use a BBC Recipe url"
@@ -107,7 +107,7 @@ get('/list') {
 }
 
 get('/') { 
-  #content_type 'text/html', :charset => 'utf-8'
+  content_type 'text/html', :charset => 'utf-8'
   if iphone_request?
     erb :index_iphone
   else
